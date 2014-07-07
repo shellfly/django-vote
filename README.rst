@@ -12,20 +12,17 @@ Quick start
     
     pip install django-vote 
 
-  
-   Add ``"vote"`` to your ``INSTALLED_APPS`` setting like this::
+2. Add ``'vote'`` to your ``INSTALLED_APPS`` setting like this::
 
     INSTALLED_APPS = (
     ...
     'vote',
-   )
+    )
 
-2. Include the polls URLconf in your project urls.py like this::
-
-    2. Run `python manage.py syncdb` to create the vote models.
+3. Run ``python manage.py syncdb`` to create the vote models.
 
 
-3. Declare vote filed to the model you want to vote::
+4. Declare vote filed to the model you want to vote::
 
     from vote.manager import VotableManager
 
@@ -33,8 +30,8 @@ Quick start
         ...
         votes = VotableManger()
 
-4. Use vote API::
+5. Use vote API::
 
-    >>> review = ArticleReview.get(pk=1)
-    >>> review.up(user)
-    >>> review.down(user)
+    >>> review = ArticleReview.objects.get(pk=1)
+    >>> review.votes.up(user)
+    >>> review.votes.down(user)
