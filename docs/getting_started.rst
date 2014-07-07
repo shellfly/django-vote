@@ -7,7 +7,7 @@ To get started using ``django-taggit`` simply install it with
     $ pip install django-vote
 
 
-Add ``"taggit"`` to your project's ``INSTALLED_APPS`` setting.
+Add ``"vote"`` to your project's ``INSTALLED_APPS`` setting.
 
 Run `./manage.py syncdb`
  
