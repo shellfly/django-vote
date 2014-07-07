@@ -10,7 +10,7 @@ Quick start
 
 1. Install ``django-vote`` by pip::
     
-   pip install django-vote 
+    pip install django-vote 
 
   
    Add ``"vote"`` to your ``INSTALLED_APPS`` setting like this::
