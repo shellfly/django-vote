@@ -12,7 +12,7 @@ from vote.utils import instance_required
 
 class VotedQuerySet(QuerySet):
     """
-    if call votes.annorate with an `user` argument then add `is_voted` to each instance
+    if call votes.annotate with an `user` argument then add `is_voted` to each instance
     """
     
     def __init__(self, model=None, query=None, using=None, user=None):
@@ -67,7 +67,7 @@ class _VotableManager(models.Manager):
         return self.through.votes_for(self.model, self.instance).count()
 
     def annotate(self, queryset=None, user=None, annotation='num_votes', reverse=True):
-        order = reverse and '-%s' % annotation or annoration
+        order = reverse and '-%s' % annotation or annotation
         kwargs = {annotation:Count('votes__user')}
         queryset = queryset or self.model.objects.all()
         queryset = queryset.annotate(**kwargs).order_by(order)
