@@ -14,7 +14,7 @@ setup(
     license='BSD License',  
     description='A simple Django app to conduct vote.',
     long_description=README,
-    url='http://www.example.com/',
+    url='https://github.com/Beeblio/django-vote',
     author='shellfly',
     author_email='shell0fly@gmail.com',
     classifiers=[
