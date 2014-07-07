@@ -8,7 +8,12 @@ Vote is a simple Django app to conduct vote for each model
 Quick start
 -----------
 
-1. Add ``"vote"`` to your ``INSTALLED_APPS`` setting like this::
+1. Install ``django-vote`` by pip::
+    
+   pip install django-vote 
+
+  
+   Add ``"vote"`` to your ``INSTALLED_APPS`` setting like this::
 
     INSTALLED_APPS = (
     ...
