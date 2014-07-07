@@ -1,0 +1,5 @@
+*.pyc
+*.*~
+django_vote.egg-info/
+dist/
+_build/
