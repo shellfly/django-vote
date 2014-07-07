@@ -1,7 +1,7 @@
 Getting Started
 ===============
 
-To get started using ``django-taggit`` simply install it with
+To get started using ``django-vote`` simply install it with
 ``pip``::
 
     $ pip install django-vote
@@ -9,9 +9,11 @@ To get started using ``django-taggit`` simply install it with
 
 Add ``"vote"`` to your project's ``INSTALLED_APPS`` setting.
 
-Run `./manage.py syncdb`
+Run::
+    
+    ./manage.py syncdb
  
-And then to any model you want tagging on do the following::
+And then to any model you want vote on do the following::
 
     from django.db import models
 
