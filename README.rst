@@ -22,7 +22,7 @@ Quick start
 3. Run ``python manage.py syncdb`` to create the vote models.
 
 
-4. Declare vote filed to the model you want to vote::
+4. Declare vote field to the model you want to vote::
 
     from vote.manager import VotableManager
 
