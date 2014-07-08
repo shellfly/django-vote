@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from django.test import TestCase
-from django.db import IntegrityError, transaction
+from django.db import IntegrityError
 from django.contrib.auth.models import User
 
 from vote.models import Vote
@@ -23,8 +23,7 @@ class VoteTest(TestCase):
         comment = Comment.objects.create(user=self.user1, content="I'm a comment")
         comment.votes.up(self.user2)
         try:
-            with transaction.atomic():
-                comment.votes.up(self.user2)
+            comment.votes.up(self.user2)
             # should not access here 
             self.assertTrue(0)
         except IntegrityError:
