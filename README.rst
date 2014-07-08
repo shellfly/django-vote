@@ -28,7 +28,7 @@ Quick start
 
     class ArticleReview(models.Model):
         ...
-        votes = VotableManger()
+        votes = VotableManager()
 
 5. Use vote API::
 
