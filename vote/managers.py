@@ -61,7 +61,7 @@ class _VotableManager(models.Manager):
 
     @instance_required
     def exists(self, user):
-        return self.throuth.objects.filter(user=user, content_object=self.instance).exists()
+        return self.through.objects.filter(user=user, content_object=self.instance).exists()
 
     def count(self):
         return self.through.votes_for(self.model, self.instance).count()
