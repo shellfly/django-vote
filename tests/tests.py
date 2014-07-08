@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 
 from vote.models import Vote
+from vote.compat import atomic
 from tests.models import Comment
 
 class VoteTest(TestCase):
@@ -23,7 +24,8 @@ class VoteTest(TestCase):
         comment = Comment.objects.create(user=self.user1, content="I'm a comment")
         comment.votes.up(self.user2)
         try:
-            comment.votes.up(self.user2)
+            with atomic():
+                comment.votes.up(self.user2)
             # should not access here 
             self.assertTrue(0)
         except IntegrityError:
