@@ -46,10 +46,11 @@ class VotedQuerySet(QuerySet):
         return c
     
 class _VotableManager(models.Manager):
-    def __init__(self, through, model, instance):
+    def __init__(self, through, model, instance, field_name='votes'):
         self.through = through
         self.model = model
         self.instance = instance
+        self.field_name = field_name
 
     @instance_required
     def up(self, user):
@@ -68,7 +69,7 @@ class _VotableManager(models.Manager):
 
     def annotate(self, queryset=None, user=None, annotation='num_votes', reverse=True):
         order = reverse and '-%s' % annotation or annotation
-        kwargs = {annotation:Count('votes__user')}
+        kwargs = {annotation:Count('%s__user' % self.field_name)}
         queryset = queryset or self.model.objects.all()
         queryset = queryset.annotate(**kwargs).order_by(order)
         return VotedQuerySet(model=queryset.model, query=queryset.query, user=user)
@@ -87,7 +88,8 @@ class VotableManager(GenericRelation):
         manager = self.manager(
             through=self.through,
             model=model,
-            instance=instance
+            instance=instance,
+            field_name=self.name
         )
         return manager
 
