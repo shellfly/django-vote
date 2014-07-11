@@ -31,12 +31,12 @@ playing around with the API.
 Aggregation
 ~~~~~~~~~~~
 Django does not support aggregation with GenericRelation `currently <https://docs.djangoproject.com/en/1.6/ref/contrib/contenttypes/#generic-relations-and-aggregation>`_
-but you still can use `annotate`::
+but you still can use ``annotate``::
 
     >>> Comment.objects.filter(article__id=article_id).annotate(num_votes=Count('votes__user'))
 
 
-Or you can call the ``annotate`` API like so, this will add `num_votes` and `is_voted` to each instance::
+Or you can call the ``annotate`` API like so, this will add ``num_votes`` and ``is_voted`` to each instance::
 
     >>> comments = Comment.objects.filter(article__id=article_id)
     >>> Comment.votes.annotate(comments, user=user)
