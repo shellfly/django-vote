@@ -30,7 +30,7 @@ playing around with the API.
 
 Aggregation
 ~~~~~~~~~~~
-Django does not support aggregation with GenericRelation `currently <https://docs.djangoproject.com/en/1.6/ref/contrib/contenttypes/#generic-relations-and-aggregation>`
+Django does not support aggregation with GenericRelation `currently <https://docs.djangoproject.com/en/1.6/ref/contrib/contenttypes/#generic-relations-and-aggregation>`_
 but you still can use `annotate`::
 
     >>> Comment.objects.filter(article__id=article_id).annotate(num_votes=Count('votes__user'))
