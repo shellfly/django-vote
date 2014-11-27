@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.0.5(2014.07.09)
+-----------------
+ * change default order_by to '-id' 
+
 1.0.4(2014.07.09)
 -----------------
  * enable using custom field name for VotableManager

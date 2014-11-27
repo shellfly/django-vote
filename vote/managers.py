@@ -71,7 +71,7 @@ class _VotableManager(models.Manager):
         order = reverse and '-%s' % annotation or annotation
         kwargs = {annotation:Count('%s__user' % self.field_name)}
         queryset = queryset if queryset is not None else self.model.objects.all()
-        queryset = queryset.annotate(**kwargs).order_by(order)
+        queryset = queryset.annotate(**kwargs).order_by(order, '-id')
         return VotedQuerySet(model=queryset.model, query=queryset.query, user=user)
         
 class VotableManager(GenericRelation):
