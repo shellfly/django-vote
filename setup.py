@@ -18,6 +18,7 @@ setup(
     author='shellfly',
     author_email='shell0fly@gmail.com',
     classifiers=[
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
