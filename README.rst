@@ -24,7 +24,7 @@ Quick start
 
 4. Declare vote field to the model you want to vote::
 
-    from vote.manager import VotableManager
+    from vote.managers import VotableManager
 
     class ArticleReview(models.Model):
         ...
