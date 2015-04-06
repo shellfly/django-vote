@@ -7,7 +7,7 @@ try:
 except ImportError:
     from django.contrib.contenttypes.generic import GenericForeignKey
 
-from compat import AUTH_USER_MODEL
+from .compat import AUTH_USER_MODEL
 
 class VoteManger(models.Manager):
     def filter(self, *args, **kwargs):
