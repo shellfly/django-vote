@@ -70,6 +70,9 @@ class _VotableManager(models.Manager):
     def count(self):
         return self.through.votes_for(self.model, self.instance).count()
 
+    def users(self):
+        return self.through.votes_for(self.model, self.instance).values_list('user_id', 'create_at')
+
     def annotate(self, queryset=None, user=None, annotation='num_votes', reverse=True):
         order = reverse and '-%s' % annotation or annotation
         kwargs = {annotation:Count('%s__user' % self.field_name)}
