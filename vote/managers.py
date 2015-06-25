@@ -4,8 +4,11 @@ from django.db import models
 from django.db.models import Count
 from django.db.models.query import QuerySet
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.generic import GenericRelation
 from django.utils.translation import ugettext_lazy as _
+try:
+    from django.contrib.contenttypes.fields import GenericRelation
+except ImportError:
+    from django.contrib.contenttypes.generic import GenericRelation
 
 from vote.models import Vote
 from vote.utils import instance_required
@@ -66,6 +69,9 @@ class _VotableManager(models.Manager):
 
     def count(self):
         return self.through.votes_for(self.model, self.instance).count()
+
+    def users(self):
+        return self.through.votes_for(self.model, self.instance).values_list('user_id', 'create_at')
 
     def annotate(self, queryset=None, user=None, annotation='num_votes', reverse=True):
         order = reverse and '-%s' % annotation or annotation

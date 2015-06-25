@@ -1,9 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
 
-from compat import AUTH_USER_MODEL
+try:
+    from django.contrib.contenttypes.fields import GenericForeignKey
+except ImportError:
+    from django.contrib.contenttypes.generic import GenericForeignKey
+
+from .compat import AUTH_USER_MODEL
 
 class VoteManger(models.Manager):
     def filter(self, *args, **kwargs):
@@ -20,7 +24,7 @@ class Vote(models.Model):
     user = models.ForeignKey(AUTH_USER_MODEL)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey()
+    content_object = GenericForeignKey()
     create_at = models.DateTimeField(auto_now_add=True)
 
     objects = VoteManger()
