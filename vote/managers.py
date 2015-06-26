@@ -71,7 +71,7 @@ class _VotableManager(models.Manager):
         return self.through.votes_for(self.model, self.instance).count()
 
     def users(self):
-        return self.through.votes_for(self.model, self.instance).values_list('user_id', 'create_at')
+        return self.through.votes_for(self.model, self.instance).order_by('-create_at').values_list('user_id', 'create_at')
 
     def annotate(self, queryset=None, user=None, annotation='num_votes', reverse=True):
         order = reverse and '-%s' % annotation or annotation
