@@ -35,3 +35,27 @@ Quick start
     >>> review = ArticleReview.objects.get(pk=1)
     >>> review.votes.up(user)
     >>> review.votes.down(user)
+
+API
+-----------
+
+up(user)
+==========
+Adds a new vote to the object
+
+down(user)
+==========
+Removes vote to the object
+
+exists(user)
+============
+Check if the user already voted the object
+
+count()
+=======
+Returns the number of votes for the object
+
+users()
+=======
+Returns a list of users who voted and their voting date
+
