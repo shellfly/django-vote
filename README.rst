@@ -59,3 +59,6 @@ users()
 =======
 Returns a list of users who voted and their voting date
 
+filter()
+=======
+add extra info to original queryset
