@@ -4,10 +4,12 @@ The API
 After you've got your ``VotableManager`` added to your model you can start
 playing around with the API.
 
-.. class:: VotableManager([through=None, verbose_name="Votes"])
+.. class:: VotableManager([through=None, verbose_name="Votes", field_name='votes', extra_field=None])
 
     :param verbose_name: The verbose_name for this field.
     :param through: The through model
+    :param field_name: The field name added to the query
+    :param extra_field: The field on your model. It will be updated when up or down
 
     .. method:: up(user)
 
