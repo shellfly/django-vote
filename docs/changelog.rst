@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.0.9(2015.09.24)
+-----------------
+ * add extra field to update
+
 1.0.5(2014.07.09)
 -----------------
  * change default order_by to '-id' 
