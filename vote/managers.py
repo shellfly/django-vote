@@ -75,6 +75,11 @@ class _VotableManager(models.Manager):
     def exists(self, user):
         return self.through.objects.filter(user=user, content_object=self.instance).exists()
 
+    def all(self, user):
+        content_type = ContentType.objects.get_for_model(self.model)
+        object_ids = self.through.objects.filter(user=user, content_type=content_type).values_list('object_id', flat=True)
+        return self.model.objects.filter(pk__in=list(object_ids))
+
     def count(self):
         return self.through.votes_for(self.model, self.instance).count()
 
