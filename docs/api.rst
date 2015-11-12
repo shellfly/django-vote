@@ -22,6 +22,14 @@ playing around with the API.
         Removes the vote from an object. No exception is raised if the user 
         doesn't have voted the object.
 
+    .. method:: exists(user)
+
+        Check if user has voted the instance before.
+
+    .. method:: all(user)
+
+        Get all instances voted by the specify user.
+
     .. method:: count()
 
         The count of  all votes for an object.
@@ -30,23 +38,9 @@ playing around with the API.
 
         Add annotation data to the ``queyset``
 
-    .. method:: filter(query, current_user=None, annotation='num_votes', reverse=True)
-        
-        filter original model, add `num_votes` to the queryset
-
-        if `current_user` is provided, then add `is_voted` to the queryset
-
 Aggregation
 ~~~~~~~~~~~
 Django does not support aggregation with GenericRelation `currently <https://docs.djangoproject.com/en/1.6/ref/contrib/contenttypes/#generic-relations-and-aggregation>`_
 but you still can use ``annotate``::
 
     >>> Comment.objects.filter(article__id=article_id).annotate(num_votes=Count('votes__user'))
-
-
-Or you can call the ``filter`` API like so, this will add ``num_votes`` and ``is_voted`` to each instance::
-
-    >>> Comment.votes.filter(query={'article__id': article_id}, current_user=user)
-
-
-

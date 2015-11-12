@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.1.0(2015.11.12)
+-----------------
+ * add api `all`, return all instances voted by specify user.
+
 1.0.9(2015.09.24)
 -----------------
  * add extra field. When up and down, the extra field on parasite model will be updated
