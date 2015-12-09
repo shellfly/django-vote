@@ -11,7 +11,7 @@ from .compat import AUTH_USER_MODEL
 
 class VoteManger(models.Manager):
     def filter(self, *args, **kwargs):
-        if kwargs.has_key('content_object'):
+        if 'content_object' in kwargs:
             content_object = kwargs.pop('content_object')
             content_type = ContentType.objects.get_for_model(content_object)
             kwargs.update({
