@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.1.1(2015.12.11)
+-----------------
+ * Python 3 support
+
 1.1.0(2015.11.12)
 -----------------
  * add api `all`, return all instances voted by specify user.
