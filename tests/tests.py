@@ -59,7 +59,13 @@ class VoteTest(TestCase):
         self.assertFalse(self.call_api('exists', comment, self.user2))
         self.call_api('up', comment, self.user2)
         self.assertTrue(self.call_api('exists', comment, self.user2))
-        
+
+    def test_vote_all(self):
+        comment = self.model.objects.create(user=self.user1, content="I'm a comment")
+        self.assertFalse(self.call_api('exists', comment, self.user2))
+        self.call_api('up', comment, self.user2)
+        self.assertEqual(len(self.call_api('all', comment, self.user2)), 1)
+
     def test_vote_count(self):
         comment1 = self.model.objects.create(user=self.user1, content="I'm a comment")
         comment2 = self.model.objects.create(user=self.user1, content="I'm a comment too")

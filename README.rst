@@ -51,6 +51,10 @@ exists(user)
 ============
 Check if the user already voted the object
 
+all(user)
+=========
+return all instances voted by user
+
 count()
 =======
 Returns the number of votes for the object
