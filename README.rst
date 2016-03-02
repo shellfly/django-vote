@@ -62,3 +62,12 @@ Returns the number of votes for the object
 users()
 =======
 Returns a list of users who voted and their voting date
+
+TemplateTags
+------------
+
+`{% load vote %}`
+
+`{% vote_exists model user %}`
+
+Check if the user already voted the object in template
