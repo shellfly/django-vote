@@ -65,11 +65,15 @@ class _VotableManager(models.Manager):
 
     @instance_required
     def down(self, user):
-        with transaction.atomic():
-            self.through.objects.filter(user=user, content_object=self.instance).delete()
-            if self.extra_field:
-                setattr(self.instance, self.extra_field, F(self.extra_field)-1)
-                self.instance.save()
+        try:
+            with transaction.atomic():
+                self.through.objects.filter(user=user, content_object=self.instance).delete()
+                if self.extra_field:
+                    setattr(self.instance, self.extra_field, F(self.extra_field)-1)
+                    self.instance.save()
+        except OperationalError:
+            # concurrent request may decrease num_vote field to negative
+            pass 
 
     @instance_required
     def exists(self, user):
