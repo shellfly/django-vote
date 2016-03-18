@@ -2,6 +2,7 @@ from collections import defaultdict
 from django.db import models, transaction
 from django.db.models import Count, F
 from django.db.models.query import QuerySet
+from django.db.utils import OperationalError
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 try:
