@@ -3,3 +3,4 @@
 django_vote.egg-info/
 dist/
 _build/
+__pycache__/
