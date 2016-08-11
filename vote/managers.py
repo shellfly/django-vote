@@ -92,16 +92,25 @@ class _VotableManager(models.Manager):
     def down(self, user_id):
         try:
             with transaction.atomic():
-                self.through.objects.filter(
-                    user_id=user_id,
-                    content_object=self.instance
-                ).delete()
+                content_type = ContentType.objects.get_for_model(self.instance)
+
+                try:
+                    vote = self.through.objects.select_for_update().get(
+                        user_id=user_id,
+                        content_type_id=content_type.id,
+                        object_id=self.instance.id
+                    )
+                except self.through.DoesNotExist:
+                    return False
+
 
                 if self.extra_field:
                     setattr(self.instance, self.extra_field,
                             F(self.extra_field)-1)
 
                     self.instance.save()
+
+                vote.delete()
 
             return True
         except (OperationalError, IntegrityError):
