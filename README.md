@@ -2,7 +2,7 @@
 
 django vote is a simple Django app to conduct vote for each model
 
-[![Build Status](https://travis-ci.org/Beeblio/django-vote.svg?branch=develop)](https://travis-ci.org/Beeblio/django-vote)
+[![Build Status](https://travis-ci.org/shanbay/django-vote.svg?branch=develop)](https://travis-ci.org/shanbay/django-vote)
 
 ### Quick start
 
