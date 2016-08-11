@@ -6,16 +6,18 @@ from vote.managers import VotableManager
 class Comment(models.Model):
     user_id = models.BigIntegerField()
     content = models.TextField()
+    num_vote = models.IntegerField(default=0)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
-    votes = VotableManager()
+    votes = VotableManager(extra_field='num_vote')
 
 
 class CustomVoteComment(models.Model):
     user_id = models.BigIntegerField()
     content = models.TextField()
+    num_vote = models.IntegerField(default=0)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
-    custom_votes = VotableManager()
+    custom_votes = VotableManager(extra_field='num_vote')
