@@ -141,9 +141,8 @@ class _VotableManager(models.Manager):
         ).order_by('-create_at').values_list('user_id', 'create_at')
 
     def annotate(self, queryset=None, user_id=None, annotation='num_votes',
-                 reverse=True):
+                 reverse=True, sort=True):
 
-        order = reverse and '-%s' % annotation or annotation
         kwargs = {annotation: Count('%s__user_id' % self.field_name)}
 
         if queryset is not None:
@@ -151,12 +150,12 @@ class _VotableManager(models.Manager):
         else:
             queryset = self.model.objects.all()
 
-        queryset = queryset.annotate(**kwargs).order_by(order, '-id')
+        queryset = queryset.annotate(**kwargs)
 
-        return VotedQuerySet(model=queryset.model, query=queryset.query,
-                             user_id=user_id)
+        if sort:
+            order = reverse and '-%s' % annotation or annotation
+            queryset = queryset.order_by(order, '-id')
 
-    def voted(self, queryset, user_id):
         return VotedQuerySet(model=queryset.model, query=queryset.query,
                              user_id=user_id)
 
