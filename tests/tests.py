@@ -121,6 +121,36 @@ class VoteTest(TestCase):
             else:
                 self.assertFalse(comment.is_voted)
 
+    def test_vote_voted(self):
+        comments = [
+            self.model(
+                user_id=self.user1.pk,
+                content="I'm a comment, sequence %s" % i) for i in range(10)
+            ]
+
+        self.model.objects.bulk_create(comments)
+        comments = list(self.model.objects.all())
+
+        comment1 = comments[0]
+        self.call_api('up', comment1, self.user2.pk)
+
+        comment2 = comments[1]
+        self.call_api('up', comment2, self.user2.pk)
+        self.call_api('up', comment2, self.user3.pk)
+        comments = Comment.objects.filter(user_id=self.user1.pk)
+        comments = self.call_api('annotate', queryset=comments,
+                                 user_id=self.user2.pk)
+        self.assertEqual(comments[0].pk, comment2.pk)
+        self.assertEqual(comments[1].pk, comment1.pk)
+
+        for comment in comments:
+            self.assertFalse(hasattr(comment, 'num_votes'))
+            self.assertTrue(hasattr(comment, 'is_voted'))
+            if comment.pk in (comment1.pk, comment2.pk):
+                self.assertTrue(comment.is_voted)
+            else:
+                self.assertFalse(comment.is_voted)
+
 
 class CustomVoteTest(VoteTest):
     through = Vote

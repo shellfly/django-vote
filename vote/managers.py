@@ -103,7 +103,6 @@ class _VotableManager(models.Manager):
                 except self.through.DoesNotExist:
                     return False
 
-
                 if self.extra_field:
                     setattr(self.instance, self.extra_field,
                             F(self.extra_field)-1)
@@ -154,6 +153,10 @@ class _VotableManager(models.Manager):
 
         queryset = queryset.annotate(**kwargs).order_by(order, '-id')
 
+        return VotedQuerySet(model=queryset.model, query=queryset.query,
+                             user_id=user_id)
+
+    def voted(self, queryset, user_id):
         return VotedQuerySet(model=queryset.model, query=queryset.query,
                              user_id=user_id)
 
