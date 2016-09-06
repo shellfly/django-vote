@@ -121,7 +121,8 @@ class VoteTest(TestCase):
             else:
                 self.assertFalse(comment.is_voted)
 
-    def test_vote_voted(self):
+    def test_objects_with_status(self):
+        test_field = 'is_test_voted'
         comments = [
             self.model(
                 user_id=self.user1.pk,
@@ -137,19 +138,16 @@ class VoteTest(TestCase):
         comment2 = comments[1]
         self.call_api('up', comment2, self.user2.pk)
         self.call_api('up', comment2, self.user3.pk)
-        comments = Comment.objects.filter(user_id=self.user1.pk)
-        comments = self.call_api('annotate', queryset=comments,
-                                 user_id=self.user2.pk)
-        self.assertEqual(comments[0].pk, comment2.pk)
-        self.assertEqual(comments[1].pk, comment1.pk)
 
+        comment_ids = [comment2.id, comment1.id]
+
+        votes = getattr(self.model, self.field_name)
+        comments = votes.objects_with_status(self.user2.pk, ids=comment_ids,
+                                             field=test_field)
+
+        self.assertEqual(comments[0].id, comment2.id)
         for comment in comments:
-            self.assertFalse(hasattr(comment, 'num_votes'))
-            self.assertTrue(hasattr(comment, 'is_voted'))
-            if comment.pk in (comment1.pk, comment2.pk):
-                self.assertTrue(comment.is_voted)
-            else:
-                self.assertFalse(comment.is_voted)
+            self.assertTrue(hasattr(comment, test_field))
 
 
 class CustomVoteTest(VoteTest):

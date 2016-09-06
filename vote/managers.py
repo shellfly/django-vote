@@ -13,7 +13,7 @@ except ImportError:
     from django.contrib.contenttypes.generic import GenericRelation
 
 from vote.models import Vote
-from vote.utils import instance_required
+from vote.utils import instance_required, add_field_to_objects
 
 
 class VotedQuerySet(QuerySet):
@@ -23,9 +23,10 @@ class VotedQuerySet(QuerySet):
     """
 
     def __init__(self, model=None, query=None, using=None, user_id=None,
-                 hints=None):
+                 hints=None, field='is_voted'):
 
         self.user_id = user_id
+        self.vote_field = field
 
         if django.VERSION < (1, 7):
             super(VotedQuerySet, self).__init__(model, query, using)
@@ -40,17 +41,9 @@ class VotedQuerySet(QuerySet):
 
         objects = self._result_cache
         user_id = self.user_id
-        content_type = ContentType.objects.get_for_model(self.model)
-        object_ids = [r.id for r in objects]
 
-        votes = Vote.objects.filter(user_id=user_id,
-                                    content_type=content_type,
-                                    object_id__in=object_ids)
-
-        voted_object_ids = [v.object_id for v in votes]
-
-        for r in objects:
-            r.is_voted = r.pk in voted_object_ids
+        objects = add_field_to_objects(self.model, objects, user_id,
+                                       field=self.vote_field)
 
         self._result_cache = objects
         return iter(objects)
@@ -158,6 +151,18 @@ class _VotableManager(models.Manager):
 
         return VotedQuerySet(model=queryset.model, query=queryset.query,
                              user_id=user_id)
+
+    def objects_with_status(self, user_id, queryset=None, ids=None,
+                            field='is_voted'):
+        if ids:
+            objects = self.model.objects.filter(id__in=ids)
+            objects = sorted(objects, key=lambda x: ids.index(x.id))
+
+            return add_field_to_objects(self.model, objects, user_id,
+                                        field=field)
+        else:
+            return VotedQuerySet(model=queryset.model, query=queryset.query,
+                                 user_id=user_id, field=field)
 
 
 class VotableManager(GenericRelation):
