@@ -142,10 +142,20 @@ class VoteTest(TestCase):
         comment_ids = [comment2.id, comment1.id]
 
         votes = getattr(self.model, self.field_name)
-        comments = votes.objects_with_status(self.user2.pk, ids=comment_ids,
-                                             field=test_field)
+        comments = votes.vote_by(self.user2.pk, ids=comment_ids,
+                                 field=test_field)
 
         self.assertEqual(comments[0].id, comment2.id)
+        for comment in comments:
+            self.assertTrue(hasattr(comment, test_field))
+
+        comment_ids = [comment1.id, comment2.id]
+
+        votes = getattr(self.model, self.field_name)
+        comments = votes.vote_by(self.user2.pk, ids=comment_ids,
+                                 field=test_field)
+
+        self.assertEqual(comments[0].id, comment1.id)
         for comment in comments:
             self.assertTrue(hasattr(comment, test_field))
 

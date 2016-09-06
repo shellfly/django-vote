@@ -152,8 +152,7 @@ class _VotableManager(models.Manager):
         return VotedQuerySet(model=queryset.model, query=queryset.query,
                              user_id=user_id)
 
-    def objects_with_status(self, user_id, queryset=None, ids=None,
-                            field='is_voted'):
+    def vote_by(self, user_id, queryset=None, ids=None, field='is_voted'):
         if ids:
             objects = self.model.objects.filter(id__in=ids)
             objects = sorted(objects, key=lambda x: ids.index(x.id))
