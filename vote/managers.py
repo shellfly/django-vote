@@ -153,7 +153,7 @@ class _VotableManager(models.Manager):
                              user_id=user_id)
 
     def vote_by(self, user_id, queryset=None, ids=None, field='is_voted'):
-        if ids:
+        if ids is not None:
             objects = self.model.objects.filter(id__in=ids)
             objects = sorted(objects, key=lambda x: ids.index(x.id))
 
