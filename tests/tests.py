@@ -121,6 +121,44 @@ class VoteTest(TestCase):
             else:
                 self.assertFalse(comment.is_voted)
 
+    def test_objects_with_status(self):
+        test_field = 'is_test_voted'
+        comments = [
+            self.model(
+                user_id=self.user1.pk,
+                content="I'm a comment, sequence %s" % i) for i in range(10)
+            ]
+
+        self.model.objects.bulk_create(comments)
+        comments = list(self.model.objects.all())
+
+        comment1 = comments[0]
+        self.call_api('up', comment1, self.user2.pk)
+
+        comment2 = comments[1]
+        self.call_api('up', comment2, self.user2.pk)
+        self.call_api('up', comment2, self.user3.pk)
+
+        comment_ids = [comment2.id, comment1.id]
+
+        votes = getattr(self.model, self.field_name)
+        comments = votes.vote_by(self.user2.pk, ids=comment_ids,
+                                 field=test_field)
+
+        self.assertEqual(comments[0].id, comment2.id)
+        for comment in comments:
+            self.assertTrue(hasattr(comment, test_field))
+
+        comment_ids = [comment1.id, comment2.id]
+
+        votes = getattr(self.model, self.field_name)
+        comments = votes.vote_by(self.user2.pk, ids=comment_ids,
+                                 field=test_field)
+
+        self.assertEqual(comments[0].id, comment1.id)
+        for comment in comments:
+            self.assertTrue(hasattr(comment, test_field))
+
 
 class CustomVoteTest(VoteTest):
     through = Vote
