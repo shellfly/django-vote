@@ -1,4 +1,4 @@
-## Djnago Vote
+## Django Vote
 
 django vote is a simple Django app to conduct vote for each model
 
