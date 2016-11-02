@@ -1,6 +1,20 @@
 Changelog
 =========
 
+2.1.2(2016.11.02)
+------------------
+
+* Add missing migration files
+* add more tests
+
+2.0.0(2016.07.15)
+-----------------
+* use user_id on vote model, Drop support for Django < 1.7
+
+1.1.3(2016.03.17)
+-----------------
+ * fix decrease to negative bug
+
 1.1.1(2015.12.11)
 -----------------
  * Python 3 support

@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from django.test import TestCase
 from django.contrib.auth.models import User
 from vote.models import Vote
-from tests.models import Comment, CustomVoteComment
+from test.models import Comment, CustomVoteComment
 
 
 class VoteTest(TestCase):
@@ -34,6 +34,9 @@ class VoteTest(TestCase):
                                             content="I'm a comment")
 
         self.call_api('up', comment, self.user2.pk)
+        self.assertEqual(self.call_api('count', comment), 1)
+
+        # call up again, will not increase count
         res = self.call_api('up', comment, self.user2.pk)
         self.assertEqual(res, False)
         self.assertEqual(self.call_api('count', comment), 1)
@@ -76,6 +79,15 @@ class VoteTest(TestCase):
         self.assertEqual(self.call_api('count', comment2), 1)
         self.assertEqual(self.call_api('count'), 2)
 
+    def test_user_ids(self):
+        comment = self.model.objects.create(user_id=self.user1.pk,
+                                             content="I'm a comment")
+        self.call_api('up', comment, self.user1.pk)
+        self.assertEqual(len(list(self.call_api('user_ids', comment))), 1)
+        
+        self.call_api('up', comment, self.user2.pk)
+        self.assertEqual(len(list(self.call_api('user_ids', comment))), 2)
+        
     def test_vote_annotate(self):
         comments = [
             self.model(
@@ -160,6 +172,28 @@ class VoteTest(TestCase):
             self.assertTrue(hasattr(comment, test_field))
 
 
+        comments = votes.vote_by(self.user2.pk, queryset=Comment.objects.all())
+        for comment in comments:
+            self.assertTrue(hasattr(comment, 'is_voted'))
+
+        self.assertRaises(ValueError, lambda: votes.vote_by(self.user2.pk))
+
+    def test_vote_templatetag(self):
+        comments = [
+            self.model(
+                user_id=self.user1.pk,
+                content="I'm a comment, sequence %s" % i) for i in range(5)
+            ]
+
+        self.model.objects.bulk_create(comments)
+        comments = list(self.model.objects.all())
+
+        comment1 = comments[0]
+        self.call_api('up', comment1, self.user1.pk)
+        res = self.client.get('/comments/')
+        self.client.login(username=self.user1.username, password='111111')
+        self.client.get('/comments/')
+        
 class CustomVoteTest(VoteTest):
     through = Vote
     model = CustomVoteComment

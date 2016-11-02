@@ -1,8 +1,11 @@
 ## Django Vote
 
-django vote is a simple Django app to conduct vote for each model
+``django-vote`` is a simple Django app to conduct vote for django model.
+
+This project is inspired by [django-taggit](https://github.com/alex/django-taggit)
 
 [![Build Status](https://travis-ci.org/shanbay/django-vote.svg?branch=develop)](https://travis-ci.org/shanbay/django-vote)
+[![Codecov](https://codecov.io/gh/shanbay/django-vote/coverage.svg?branch=master)](https://codecov.io/gh/shanbay/django-vote?branch=master)
 
 ### Quick start
 
@@ -57,3 +60,5 @@ review.votes.count()
 # Returns a list of users who voted and their voting date
 review.votes.users()
 ```
+
+``django-vote`` now requires Django 1.7 or greater. (for Django < 1.7, please install previous release `django-vote==1.1.3`)

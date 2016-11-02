@@ -10,13 +10,13 @@ class Comment(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
-    votes = VotableManager(extra_field='num_vote')
+    votes = VotableManager()
 
 
 class CustomVoteComment(models.Model):
     user_id = models.BigIntegerField()
     content = models.TextField()
-    num_vote = models.IntegerField(default=0)
+    num_vote = models.PositiveIntegerField(default=0)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 

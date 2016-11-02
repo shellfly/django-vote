@@ -8,4 +8,4 @@ register = template.Library()
 def vote_exists(model, user=AnonymousUser()):
     if user.is_anonymous():
         return False
-    return model.votes.exists(user)
+    return model.votes.exists(user.pk)
