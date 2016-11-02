@@ -4,3 +4,6 @@
 dist/
 _build/
 __pycache__/
+
+.coverage
+.eggs/
