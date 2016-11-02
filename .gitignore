@@ -4,3 +4,9 @@
 dist/
 _build/
 __pycache__/
+
+
+.DS_Store
+htmlcov
+.coverage
+.eggs/

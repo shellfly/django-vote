@@ -1,16 +1,10 @@
-import django
-
 from django.db import models, transaction, IntegrityError
 from django.db.models import Count, F
 from django.db.models.query import QuerySet
 from django.db.utils import OperationalError
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
-
-try:
-    from django.contrib.contenttypes.fields import GenericRelation
-except ImportError:
-    from django.contrib.contenttypes.generic import GenericRelation
 
 from vote.models import Vote
 from vote.utils import instance_required, add_field_to_objects
@@ -27,11 +21,7 @@ class VotedQuerySet(QuerySet):
 
         self.user_id = user_id
         self.vote_field = field
-
-        if django.VERSION < (1, 7):
-            super(VotedQuerySet, self).__init__(model, query, using)
-        else:
-            super(VotedQuerySet, self).__init__(model, query, using, hints)
+        super(VotedQuerySet, self).__init__(model, query, using, hints)
 
     def __iter__(self):
         super(VotedQuerySet, self).__iter__()
@@ -57,7 +47,6 @@ class VotedQuerySet(QuerySet):
 class _VotableManager(models.Manager):
     def __init__(self, through, model, instance, field_name='votes',
                  extra_field=None):
-
         self.through = through
         self.model = model
         self.instance = instance
@@ -153,6 +142,9 @@ class _VotableManager(models.Manager):
                              user_id=user_id)
 
     def vote_by(self, user_id, queryset=None, ids=None, field='is_voted'):
+        if queryset is None and ids is None:
+            raise ValueError("queryset or ids can not be None")
+
         if ids is not None:
             objects = self.model.objects.filter(id__in=ids)
             objects = sorted(objects, key=lambda x: ids.index(x.id))

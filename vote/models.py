@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
-
-try:
-    from django.contrib.contenttypes.fields import GenericForeignKey
-except ImportError:
-    from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 
 class VoteManger(models.Manager):

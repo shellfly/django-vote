@@ -1,0 +1,4 @@
+{% load vote %}
+{% for comment in comments %}
+{{comment.content}} {% vote_exists comment user %}
+{% endfor %}
