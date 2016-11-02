@@ -1,5 +1,9 @@
 *.pyc
 *.*~
-django_vote.egg-info/
+*.egg-info/
 dist/
 _build/
+__pycache__/
+
+.coverage
+.eggs/

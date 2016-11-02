@@ -1,14 +1,14 @@
 import os
 from setuptools import setup
 
-README = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
+README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-vote',
-    version='1.1.1',
+    version='2.1.1',
     packages=['vote'],
     include_package_data=True,
     license='BSD License',
@@ -24,7 +24,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],

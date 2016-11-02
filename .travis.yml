@@ -1,0 +1,24 @@
+language: python
+python:
+  - "2.7"
+  - "3.5"
+env:
+  - DJANGO_VERSION=1.6
+  - DJANGO_VERSION=1.7
+  - DJANGO_VERSION=1.8
+  - DJANGO_VERSION=1.9
+  - DJANGO_VERSION=1.10
+install:
+  - pip install -q Django==$DJANGO_VERSION flake8 coverage
+script:
+  - flake8 vote
+  - coverage run runtests.py
+matrix:
+  exclude:
+    - python: "3.5"
+      env: DJANGO_VERSION=1.6
+    - python: "3.5"
+      env: DJANGO_VERSION=1.7
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
