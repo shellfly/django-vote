@@ -24,8 +24,11 @@ INSTALLED_APPS = (
 )
 ```
 
-#### Run `python manage.py makemigrations vote` to create the vote models.
+#### Run migrate 
 
+```shell
+manage.py migrate
+```
 
 #### Declare vote field to the model you want to vote
 
