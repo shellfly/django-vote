@@ -8,8 +8,6 @@ Welcome to django-vote's documentation!
 
 ``django-vote`` is a reusable Django application designed to voting your django model easy and fun.
 
-``django-vote`` now works with Django 1.4+ and Python 2.7.
-
 .. toctree::
    :maxdepth: 2
 
