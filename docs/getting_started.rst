@@ -37,4 +37,4 @@ If you want to save number of votes directly on original model::
     class Comment(models.Model):
         # ... fields here
         num_votes = models.PositiveIntegerField(default=0)
-        votes = VotableManager(extra_field='num_vote')
+        votes = VotableManager(extra_field='num_votes')
