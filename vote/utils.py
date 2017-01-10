@@ -15,7 +15,8 @@ def instance_required(func):
     return inner
 
 
-def add_field_to_objects(model, objects, user_id, field='is_voted'):
+def add_field_to_objects(model, objects, user_id, vote_up_field='is_voted_up',
+                         vote_down_field='is_voted_down'):
     content_type = ContentType.objects.get_for_model(model)
     object_ids = [r.id for r in objects]
 
@@ -23,9 +24,10 @@ def add_field_to_objects(model, objects, user_id, field='is_voted'):
         user_id=user_id,
         content_type=content_type,
         object_id__in=object_ids
-    ).values_list("object_id", flat=True)
+    ).values_list("object_id", "action")
 
     for r in objects:
-        setattr(r, field, r.pk in voted_object_ids)
+        setattr(r, vote_up_field, (r.pk, Vote.UP) in voted_object_ids)
+        setattr(r, vote_down_field, (r.pk, Vote.DOWN) in voted_object_ids)
 
     return objects
