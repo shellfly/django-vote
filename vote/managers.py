@@ -81,7 +81,6 @@ class _VotableManager(models.Manager):
                 setattr(self.instance, statistics_field,
                         getattr(self.instance, statistics_field) + 1)
 
-                self.instance.vote_score = self.instance.calculate_vote_score
                 self.instance.save()
 
             return True
@@ -118,7 +117,6 @@ class _VotableManager(models.Manager):
                 setattr(self.instance, statistics_field,
                         getattr(self.instance, statistics_field) - 1)
 
-                self.instance.vote_score = self.instance.calculate_vote_score
                 self.instance.save()
 
                 vote.delete()

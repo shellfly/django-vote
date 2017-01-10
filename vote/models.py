@@ -63,6 +63,10 @@ class VoteModel(models.Model):
     class Meta:
         abstract = True
 
+    def save(self, *args, **kwargs):
+        self.vote_score = self.calculate_vote_score
+        super(VoteModel, self).save(*args, **kwargs)
+
     @property
     def calculate_vote_score(self):
         return self.num_vote_up - self.num_vote_down
