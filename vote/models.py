@@ -92,7 +92,3 @@ class VoteModel(models.Model):
     @is_voted_down.setter
     def is_voted_down(self, value):
         self._is_voted_down = value
-
-    @is_voted_up.setter
-    def is_voted_up(self, value):
-        self._is_voted_up = value
