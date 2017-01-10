@@ -70,3 +70,29 @@ class VoteModel(models.Model):
     @property
     def calculate_vote_score(self):
         return self.num_vote_up - self.num_vote_down
+
+    @property
+    def is_voted_up(self):
+        try:
+            return self._is_voted_up
+        except AttributeError:
+            return False
+
+    @is_voted_up.setter
+    def is_voted_up(self, value):
+        self._is_voted_up = value
+
+    @property
+    def is_voted_down(self):
+        try:
+            return self._is_voted_down
+        except AttributeError:
+            return False
+
+    @is_voted_down.setter
+    def is_voted_down(self, value):
+        self._is_voted_down = value
+
+    @is_voted_up.setter
+    def is_voted_up(self, value):
+        self._is_voted_up = value
