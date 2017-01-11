@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from vote.managers import VotableManager
 
 
 class VoteManger(models.Manager):
@@ -53,7 +54,6 @@ class Vote(models.Model):
 
 
 class VoteModel(models.Model):
-    from vote.managers import VotableManager
     vote_score = models.IntegerField(default=0, db_index=True)
     num_vote_up = models.PositiveIntegerField(default=0, db_index=True)
     num_vote_down = models.PositiveIntegerField(default=0, db_index=True)
