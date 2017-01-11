@@ -1,5 +1,4 @@
 from django.db import models, transaction, IntegrityError
-from django.db.models import Count, F
 from django.db.models.query import QuerySet
 from django.db.utils import OperationalError
 from django.contrib.contenttypes.fields import GenericRelation
@@ -59,7 +58,8 @@ class _VotableManager(models.Manager):
 
                 content_type = ContentType.objects.get_for_model(self.model)
                 try:
-                    vote = self.through.objects.get(user_id=user_id, content_type=content_type,
+                    vote = self.through.objects.get(user_id=user_id,
+                                                    content_type=content_type,
                                                     object_id=self.instance.pk)
                     if vote.action == action:
                         return False
@@ -73,8 +73,10 @@ class _VotableManager(models.Manager):
                     setattr(self.instance, voted_field,
                             getattr(self.instance, voted_field) - 1)
                 except self.through.DoesNotExist:
-                    self.through.objects.create(user_id=user_id, content_type=content_type,
-                                                object_id=self.instance.pk, action=action)
+                    self.through.objects.create(user_id=user_id,
+                                                content_type=content_type,
+                                                object_id=self.instance.pk,
+                                                action=action)
 
                 statistics_field = self.through.ACTION_FIELD.get(action)
                 setattr(self.instance, statistics_field,
