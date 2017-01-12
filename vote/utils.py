@@ -1,6 +1,5 @@
 from functools import wraps
 from django.contrib.contenttypes.models import ContentType
-from vote.models import Vote
 
 
 def instance_required(func):
@@ -16,6 +15,7 @@ def instance_required(func):
 
 
 def add_field_to_objects(model, objects, user_id):
+    from vote.models import Vote, UP, DOWN
     content_type = ContentType.objects.get_for_model(model)
     object_ids = [r.id for r in objects]
 
@@ -26,7 +26,7 @@ def add_field_to_objects(model, objects, user_id):
     ).values_list("object_id", "action")
 
     for r in objects:
-        r.is_voted_up = (r.pk, Vote.UP) in voted_object_ids
-        r.is_voted_down = (r.pk, Vote.DOWN) in voted_object_ids
+        r.is_voted_up = (r.pk, UP) in voted_object_ids
+        r.is_voted_down = (r.pk, DOWN) in voted_object_ids
 
     return objects

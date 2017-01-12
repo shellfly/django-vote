@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from vote.managers import VotableManager
+
+UP = 0
+DOWN = 1
 
 
 class VoteManger(models.Manager):
@@ -18,12 +22,9 @@ class VoteManger(models.Manager):
 
 
 class Vote(models.Model):
-    UP = 0
-    DOWN = 1
-
     ACTION_FIELD = {
-        0: 'num_vote_up',
-        1: 'num_vote_down'
+        UP: 'num_vote_up',
+        DOWN: 'num_vote_down'
     }
 
     user_id = models.BigIntegerField()
@@ -50,9 +51,6 @@ class Vote(models.Model):
             kwargs["object_id"] = instance.pk
 
         return cls.objects.filter(**kwargs)
-
-
-from vote.managers import VotableManager
 
 
 class VoteModel(models.Model):

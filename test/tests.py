@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from django.test import TestCase
 from django.contrib.auth.models import User
-from vote.models import Vote
+from vote.models import Vote, UP, DOWN
 from test.models import Comment
 
 
@@ -34,44 +34,44 @@ class VoteTest(TestCase):
                                             content="I'm a comment")
 
         self.call_api('up', comment, self.user2.pk)
-        self.assertEqual(self.call_api('count', comment, self.through.UP), 1)
+        self.assertEqual(self.call_api('count', comment, UP), 1)
 
         # call up again, will not increase count
         res = self.call_api('up', comment, self.user2.pk)
         self.assertEqual(res, False)
-        self.assertEqual(self.call_api('count', comment, self.through.UP), 1)
+        self.assertEqual(self.call_api('count', comment, UP), 1)
 
     def test_vote_down(self):
         comment = self.model.objects.create(user_id=self.user1.pk,
                                             content="I'm a comment")
 
         # no votes yet, no exception raised
-        self.assertEqual(self.call_api('count', comment, self.through.DOWN), 0)
+        self.assertEqual(self.call_api('count', comment, DOWN), 0)
         self.call_api('down', comment, self.user2.pk)
-        self.assertEqual(self.call_api('count', comment, self.through.DOWN), 1)
+        self.assertEqual(self.call_api('count', comment, DOWN), 1)
 
         self.call_api('up', comment, self.user2.pk)
-        self.assertEqual(self.call_api('count', comment, self.through.UP), 1)
+        self.assertEqual(self.call_api('count', comment, UP), 1)
         self.call_api('down', comment, self.user2.pk)
-        self.assertEqual(self.call_api('count', comment, self.through.DOWN), 1)
+        self.assertEqual(self.call_api('count', comment, DOWN), 1)
 
     def test_vote_delete(self):
         comment = self.model.objects.create(user_id=self.user1.pk,
                                             content="I'm a comment")
 
         self.call_api('up', comment, self.user2.pk)
-        self.assertEqual(self.call_api('count', comment, self.through.UP), 1)
+        self.assertEqual(self.call_api('count', comment, UP), 1)
         self.call_api('delete', comment, self.user2.pk)
-        self.assertEqual(self.call_api('count', comment, self.through.UP), 0)
+        self.assertEqual(self.call_api('count', comment, UP), 0)
 
     def test_vote_exists(self):
         comment = self.model.objects.create(user_id=self.user1.pk,
                                             content="I'm a comment")
         self.assertFalse(self.call_api('exists', comment, self.user2.pk,
-                                       self.through.UP))
+                                       UP))
         self.call_api('up', comment, self.user2.pk)
         self.assertTrue(self.call_api('exists', comment,
-                                      self.user2.pk, self.through.UP))
+                                      self.user2.pk, UP))
 
     def test_vote_all(self):
         comment = self.model.objects.create(user_id=self.user1.pk,

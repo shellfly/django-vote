@@ -5,8 +5,10 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 
-from vote.models import Vote
 from vote.utils import instance_required, add_field_to_objects
+
+UP = 0
+DOWN = 1
 
 
 class VotedQuerySet(QuerySet):
@@ -90,11 +92,11 @@ class _VotableManager(models.Manager):
 
     @instance_required
     def up(self, user_id):
-        return self.vote(user_id, action=self.through.UP)
+        return self.vote(user_id, action=UP)
 
     @instance_required
     def down(self, user_id):
-        return self.vote(user_id, action=self.through.DOWN)
+        return self.vote(user_id, action=DOWN)
 
     @instance_required
     def delete(self, user_id):
@@ -128,14 +130,14 @@ class _VotableManager(models.Manager):
             return False
 
     @instance_required
-    def exists(self, user_id, action=Vote.UP):
+    def exists(self, user_id, action=UP):
         return self.through.objects.filter(
             user_id=user_id,
             content_object=self.instance,
             action=action
         ).exists()
 
-    def all(self, user_id, action=Vote.UP):
+    def all(self, user_id, action=UP):
         content_type = ContentType.objects.get_for_model(self.model)
 
         object_ids = self.through.objects.filter(
@@ -145,11 +147,11 @@ class _VotableManager(models.Manager):
 
         return self.model.objects.filter(pk__in=list(object_ids))
 
-    def count(self, action=Vote.UP):
+    def count(self, action=UP):
         return self.through.votes_for(self.model,
                                       self.instance, action).count()
 
-    def user_ids(self, action=Vote.UP):
+    def user_ids(self, action=UP):
         return self.through.votes_for(
             self.model, self.instance, action
         ).order_by('-create_at').values_list('user_id', 'create_at')
@@ -185,8 +187,9 @@ class _VotableManager(models.Manager):
 
 class VotableManager(GenericRelation):
 
-    def __init__(self, through=Vote, manager=_VotableManager, **kwargs):
-        self.through = through
+    def __init__(self, through=None, manager=_VotableManager, **kwargs):
+        from vote.models import Vote
+        self.through = Vote if not through else through
         self.manager = manager
         kwargs['verbose_name'] = kwargs.get('verbose_name', _('Votes'))
         super(VotableManager, self).__init__(self.through, **kwargs)
