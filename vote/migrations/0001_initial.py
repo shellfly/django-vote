@@ -10,20 +10,20 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ('auth', '__first__'),
-        ('contenttypes', '__first__')
-     ]
-    
+    dependencies = [('auth', '__first__'), ('contenttypes', '__first__')]
+
     operations = [
         migrations.CreateModel(
             name='Vote',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True,
+                                        serialize=False, verbose_name='ID')),
                 ('user_id', models.BigIntegerField()),
                 ('object_id', models.PositiveIntegerField()),
                 ('create_at', models.DateTimeField(auto_now_add=True)),
-                ('content_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
+                ('content_type', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='contenttypes.ContentType')),
             ],
         ),
         migrations.AlterUniqueTogether(
