@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
-from vote.managers import VotableManager
 
 
 class VoteManger(models.Manager):
@@ -51,6 +50,9 @@ class Vote(models.Model):
             kwargs["object_id"] = instance.pk
 
         return cls.objects.filter(**kwargs)
+
+
+from vote.managers import VotableManager
 
 
 class VoteModel(models.Model):
