@@ -37,7 +37,7 @@ class ArticleReview(VoteModel, models.Model):
 #### Run migrate
 
 ```shell
-manage.py makemigrations {appname}
+manage.py makemigrations
 manage.py migrate
 ```
 

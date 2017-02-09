@@ -22,5 +22,5 @@ And then to any model you want vote on do the following::
     
 Run::
 
-    ./manage.py makemigrations {appname}
+    ./manage.py makemigrations
     ./manage.py migrate
