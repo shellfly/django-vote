@@ -1,6 +1,6 @@
 # Changelog
 
-2.1.3(2017.02.09)
+2.1.4(2017.02.09)
 ------------------
 https://github.com/Beeblio/django-vote/tree/2.1.3
 
