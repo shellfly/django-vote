@@ -25,12 +25,6 @@ INSTALLED_APPS = (
 )
 ```
 
-#### Run migrate
-
-```shell
-manage.py migrate
-```
-
 #### Add `VoteModel` to the model you want to vote
 
 ```python
@@ -39,6 +33,14 @@ from vote.models import VoteModel
 class ArticleReview(VoteModel, models.Model):
     ...
 ```
+
+#### Run migrate
+
+```shell
+manage.py makemigrations {appname}
+manage.py migrate
+```
+
 
 #### Use vote API
 
