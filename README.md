@@ -31,7 +31,7 @@ INSTALLED_APPS = (
 manage.py migrate
 ```
 
-#### Declare vote field to the model you want to vote
+#### Add `VoteModel` to the model you want to vote
 
 ```python
 from vote.models import VoteModel
