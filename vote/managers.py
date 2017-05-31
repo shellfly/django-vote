@@ -130,6 +130,13 @@ class _VotableManager(models.Manager):
             return False
 
     @instance_required
+    def user_vote(self, user_id):
+        return self.through.objects.filter(
+            user_id=user_id,
+            content_object=self.instance,
+        )
+        
+    @instance_required
     def exists(self, user_id, action=UP):
         return self.through.objects.filter(
             user_id=user_id,
