@@ -73,6 +73,14 @@ class VoteTest(TestCase):
         self.assertTrue(self.call_api('exists', comment,
                                       self.user2.pk, UP))
 
+    def test_vote_get(self):
+        comment = self.model.objects.create(user_id=self.user1.pk,
+                                            content="I'm a comment")
+        self.assertIsNone(self.call_api('get', comment, self.user2.pk))
+        self.call_api('up', comment, self.user2.pk)
+        vote = Vote.objects.first()
+        self.assertEqual(vote, self.call_api('get', comment, self.user2.pk))
+
     def test_vote_all(self):
         comment = self.model.objects.create(user_id=self.user1.pk,
                                             content="I'm a comment")
@@ -96,10 +104,10 @@ class VoteTest(TestCase):
                                             content="I'm a comment")
         self.call_api('up', comment, self.user1.pk)
         self.assertEqual(len(list(self.call_api('user_ids', comment))), 1)
-        
+
         self.call_api('up', comment, self.user2.pk)
         self.assertEqual(len(list(self.call_api('user_ids', comment))), 2)
-        
+
     def test_vote_annotate(self):
         comments = [
             self.model(
