@@ -19,14 +19,14 @@ playing around with the API.
 
     .. method:: down(user_id)
 
-        Removes the vote from an object. No exception is raised if the user 
+        Removes the vote from an object. No exception is raised if the user
         doesn't have voted the object.
-                
+
     .. method:: delete(user_id)
 
-        Removes the vote from an object. No exception is raised if the user 
+        Removes the vote from an object. No exception is raised if the user
         doesn't have voted the object.
-    
+
     .. method:: exists(user_id, action=UP)
 
         Check if user has voted the instance before.
@@ -42,6 +42,10 @@ playing around with the API.
     .. method:: count(action=UP)
 
         The count of  all votes for an object.
+
+    .. method:: get(user_id)
+
+        Get the whole Vote object for the user. Returns None if no vote present.
 
     .. method:: annotate(queryset=None, user_id=None, reverse=True, sort=True)
 
