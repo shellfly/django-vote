@@ -7,7 +7,7 @@ UP = 0
 DOWN = 1
 
 
-class VoteManger(models.Manager):
+class VoteManager(models.Manager):
 
     def filter(self, *args, **kwargs):
         if 'content_object' in kwargs:
@@ -18,7 +18,7 @@ class VoteManger(models.Manager):
                 'object_id': content_object.pk
             })
 
-        return super(VoteManger, self).filter(*args, **kwargs)
+        return super(VoteManager, self).filter(*args, **kwargs)
 
 
 class Vote(models.Model):
@@ -34,7 +34,7 @@ class Vote(models.Model):
     action = models.PositiveSmallIntegerField(default=UP)
     create_at = models.DateTimeField(auto_now_add=True)
 
-    objects = VoteManger()
+    objects = VoteManager()
 
     class Meta:
         unique_together = ('user_id', 'content_type', 'object_id', 'action')
