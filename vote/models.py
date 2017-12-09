@@ -28,7 +28,7 @@ class Vote(models.Model):
     }
 
     user_id = models.BigIntegerField()
-    content_type = models.ForeignKey(ContentType, models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
     action = models.PositiveSmallIntegerField(default=UP)
