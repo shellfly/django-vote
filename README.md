@@ -4,8 +4,8 @@
 
 This project is inspired by [django-taggit](https://github.com/alex/django-taggit)
 
-[![Build Status](https://travis-ci.org/shanbay/django-vote.svg?branch=develop)](https://travis-ci.org/shanbay/django-vote)
-[![Codecov](https://codecov.io/gh/shanbay/django-vote/coverage.svg?branch=master)](https://codecov.io/gh/shanbay/django-vote?branch=master)
+[![Build Status](https://travis-ci.org/shellfly/django-vote.svg?branch=master)](https://travis-ci.org/shellfly/django-vote)
+[![codecov](https://codecov.io/gh/shellfly/django-vote/branch/master/graph/badge.svg)](https://codecov.io/gh/shellfly/django-vote)
 [![PyPI version](https://badge.fury.io/py/django-vote.svg)](https://badge.fury.io/py/django-vote)
 
 ### Quick start
