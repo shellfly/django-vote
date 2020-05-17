@@ -1,6 +1,15 @@
 Changelog
 =========
 
+2.2.0 (2020.05.20)
+------------------
+* Add post_vote signal
+* Add VoteMixin for easily write vote api
+* Support Django 3.0
+
+2.1.7(2018.05.08)
+-----------------
+* fix template tag error on Django 2.0
 
 2.1.6(2017.12.20)
 ------------------

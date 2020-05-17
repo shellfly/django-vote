@@ -113,7 +113,7 @@ class VoteTest(TestCase):
             self.model(
                 user_id=self.user1.pk,
                 content="I'm a comment, sequence %s" % i) for i in range(10)
-            ]
+        ]
 
         self.model.objects.bulk_create(comments)
         comments = list(self.model.objects.all())
@@ -159,7 +159,7 @@ class VoteTest(TestCase):
             self.model(
                 user_id=self.user1.pk,
                 content="I'm a comment, sequence %s" % i) for i in range(10)
-            ]
+        ]
 
         self.model.objects.bulk_create(comments)
         comments = list(self.model.objects.all())
@@ -191,7 +191,6 @@ class VoteTest(TestCase):
             self.assertTrue(hasattr(comment, 'is_voted_up'))
             self.assertTrue(hasattr(comment, 'is_voted_down'))
 
-
         comments = votes.vote_by(self.user2.pk, queryset=Comment.objects.all())
         for comment in comments:
             self.assertTrue(hasattr(comment, 'is_voted_up'))
@@ -204,7 +203,7 @@ class VoteTest(TestCase):
             self.model(
                 user_id=self.user1.pk,
                 content="I'm a comment, sequence %s" % i) for i in range(5)
-            ]
+        ]
 
         self.model.objects.bulk_create(comments)
         comments = list(self.model.objects.all())
@@ -214,3 +213,34 @@ class VoteTest(TestCase):
         res = self.client.get('/comments/')
         self.client.login(username=self.user1.username, password='111111')
         self.client.get('/comments/')
+
+    def test_votemixin_api(self):
+        comment = self.model(
+            user_id=self.user1.pk,
+            content="I'm a comment")
+        comment.save()
+        self.assertEqual(comment.num_vote_up, 0)
+        import pdb
+        pdb.set_trace()
+        self.client.login(
+            username=self.user1.username, password='111111')
+
+        res = self.client.post('/api/comments/%s/vote/' % comment.id)
+        self.assertEqual(res.status_code, 200)
+        res = self.client.post('/api/comments/%s/vote/' % comment.id)
+        self.assertEqual(res.status_code, 409)
+        comment = Comment.objects.get(id=comment.id)
+        self.assertEqual(comment.num_vote_up, 1)
+
+        res = self.client.post('/api/comments/%s/vote/' %
+                               comment.id, {"action": "down"})
+        self.assertEqual(res.status_code, 200)
+        comment = Comment.objects.get(id=comment.id)
+        self.assertEqual(comment.num_vote_up, 0)
+        self.assertEqual(comment.num_vote_down, 1)
+
+        res = self.client.delete('/api/comments/%s/vote/' % comment.id)
+        comment = Comment.objects.get(id=comment.id)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(comment.num_vote_up, 0)
+        self.assertEqual(comment.num_vote_down, 0)

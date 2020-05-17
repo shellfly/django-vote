@@ -1,7 +1,11 @@
-from django.conf.urls import url
-
 from . import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'comments', views.CommentViewSet)
 
 urlpatterns = [
-        url(r'^comments/$', views.comments),
+    path('comments', views.comments),
+    path('api/', include(router.urls)),
 ]
