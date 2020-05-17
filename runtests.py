@@ -19,11 +19,15 @@ if not settings.configured:
             'test',
         ],
         ROOT_URLCONF="test.urls",
-        MIDDLEWARE_CLASSES = [
+        MIDDLEWARE_CLASSES=[  # Deprecated in Django 1.10 https://docs.djangoproject.com/en/1.11/ref/settings/#middleware-classes
             'django.contrib.sessions.middleware.SessionMiddleware',
             'django.contrib.auth.middleware.AuthenticationMiddleware',
         ],
-        TEMPLATES = [
+        MIDDLEWARE=[
+            'django.contrib.sessions.middleware.SessionMiddleware',
+            'django.contrib.auth.middleware.AuthenticationMiddleware',
+        ],
+        TEMPLATES=[
             {
                 'BACKEND': 'django.template.backends.django.DjangoTemplates',
                 'APP_DIRS': True,
@@ -32,10 +36,10 @@ if not settings.configured:
                         'django.template.context_processors.request',
                         'django.contrib.auth.context_processors.auth',
                     ],
-                    
+
                 },
             },
-            
+
         ]
     )
 
@@ -43,6 +47,7 @@ if not settings.configured:
 def runtests():
     argv = sys.argv[:1] + ['test'] + sys.argv[1:]
     execute_from_command_line(argv)
+
 
 if __name__ == '__main__':
     runtests()

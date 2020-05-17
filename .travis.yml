@@ -1,24 +1,14 @@
 language: python
 python:
-  - "2.7"
-  - "3.5"
+  - "3.7"
 env:
-  - DJANGO_VERSION=1.7
-  - DJANGO_VERSION=1.8
-  - DJANGO_VERSION=1.9
-  - DJANGO_VERSION=1.10
   - DJANGO_VERSION=2.0
+  - DJANGO_VERSION=3.0
 install:
-  - pip install -q Django==$DJANGO_VERSION flake8 coverage
+  - pip install -q Django==$DJANGO_VERSION flake8 coverage djangorestframework
 script:
   - flake8 --exclude vote/migrations/* vote
   - coverage run runtests.py
-matrix:
-  exclude:
-    - python: "3.5"
-      env: DJANGO_VERSION=1.7
-    - python: "2.7"
-      env: DJANGO_VERSION=2.0
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

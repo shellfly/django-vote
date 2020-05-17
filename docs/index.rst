@@ -13,6 +13,7 @@ Welcome to django-vote's documentation!
 
    getting_started
    api
+   rest api
    changelog
 
 

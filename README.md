@@ -71,4 +71,16 @@ Review.votes.all(user_id)
 
 ```
 
-``django-vote`` now requires Django 1.7 or greater. (for Django < 1.7, please install previous release `django-vote==1.1.3`)
+#### Use `VoteMixin` for REST API
+
+``` python
+class CommentViewSet(ModelViewSet, VoteMixin):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+```
+
+```sh
+POST /api/comments/{id}/vote/
+POST /api/comments/{id}/vote/ {"action":"down"}
+DELETE /api/comments/{id}/vote/
+```
