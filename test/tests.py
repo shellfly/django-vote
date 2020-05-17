@@ -17,6 +17,9 @@ class VoteTest(TestCase):
                                               '111111')
         self.user3 = User.objects.create_user("test3", "test3@test.com",
                                               '111111')
+        print('\n%s.%s.%s' % (self.__class__.__module__,
+                              self.__class__.__name__,
+                              self._testMethodName))
 
     def tearDown(self):
         self.model.objects.all().delete()
@@ -210,7 +213,9 @@ class VoteTest(TestCase):
 
         comment1 = comments[0]
         self.call_api('up', comment1, self.user1.pk)
-        res = self.client.get('/comments/')
+        # test with anonymous user
+        self.client.get('/comments/')
+        # test with authenticated user
         self.client.login(username=self.user1.username, password='111111')
         self.client.get('/comments/')
 
@@ -220,8 +225,6 @@ class VoteTest(TestCase):
             content="I'm a comment")
         comment.save()
         self.assertEqual(comment.num_vote_up, 0)
-        import pdb
-        pdb.set_trace()
         self.client.login(
             username=self.user1.username, password='111111')
 

@@ -1,7 +1,5 @@
-from django.db import IntegrityError
 from rest_framework.decorators import action
-from rest_framework.views import APIView, Response
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import Response
 
 from vote.signals import post_voted
 

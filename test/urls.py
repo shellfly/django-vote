@@ -6,6 +6,6 @@ router = DefaultRouter()
 router.register(r'comments', views.CommentViewSet)
 
 urlpatterns = [
-    path('comments', views.comments),
+    path('comments/', views.comments),
     path('api/', include(router.urls)),
 ]

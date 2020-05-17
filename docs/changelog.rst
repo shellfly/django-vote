@@ -5,7 +5,8 @@ Changelog
 ------------------
 * Add post_vote signal
 * Add VoteMixin for easily write vote api
-* Support Django 3.0
+* Drop support for Django < 2.0
+* Add Django 3.0 test
 
 2.1.7(2018.05.08)
 -----------------
