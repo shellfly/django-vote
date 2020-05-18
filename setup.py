@@ -18,6 +18,7 @@ setup(
     license='BSD License',
     description='A simple Django app to conduct vote.',
     long_description=README,
+    long_description_content_type='text/markdown',
     url='https://github.com/shellfly/django-vote',
     author='shellfly',
     author_email='shell0fly@gmail.com',
