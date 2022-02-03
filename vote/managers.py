@@ -3,7 +3,7 @@ from django.db.models.query import QuerySet
 from django.db.utils import OperationalError
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from vote.utils import instance_required, add_field_to_objects
 
