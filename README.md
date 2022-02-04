@@ -4,7 +4,7 @@
 
 This project is inspired by [django-taggit](https://github.com/alex/django-taggit)
 
-[![Build Status](https://travis-ci.org/shellfly/django-vote.svg?branch=master)](https://travis-ci.org/shellfly/django-vote)
+![Ci](https://github.com/shellfly/django-vote/actions/workflows/ci.yml/badge.svg)
 [![codecov](https://codecov.io/gh/shellfly/django-vote/branch/master/graph/badge.svg)](https://codecov.io/gh/shellfly/django-vote)
 [![PyPI version](https://badge.fury.io/py/django-vote.svg)](https://badge.fury.io/py/django-vote)
 
