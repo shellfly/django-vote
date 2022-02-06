@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.3.0 (2022.02.06)
+------------------
+* Add support for Django 4.0
+
 2.2.0 (2020.05.20)
 ------------------
 * Add post_vote signal

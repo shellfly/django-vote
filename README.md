@@ -41,7 +41,6 @@ manage.py makemigrations
 manage.py migrate
 ```
 
-
 #### Use vote API
 
 ```python
@@ -56,8 +55,12 @@ review.votes.down(user_id)
 # Removes a vote from the object
 review.votes.delete(user_id)
 
-# Check if the user already voted the object
+# Check if the user already voted (up) the object
 review.votes.exists(user_id)
+
+# Check if the user already voted (down) the object
+# import UP, DOWN from vote.models
+review.votes.exists(user_id, action=DOWN)
 
 # Returns the number of votes for the object
 review.votes.count()
