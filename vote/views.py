@@ -6,7 +6,7 @@ from vote.signals import post_voted
 
 class VoteMixin:
     def get_instance(self, pk):
-        return self.queryset.get(pk=pk)
+        return self.get_queryset().get(pk=pk)
 
     @action(detail=True, methods=('post', 'delete'))
     def vote(self, request, pk):
@@ -16,7 +16,7 @@ class VoteMixin:
             action = request.data.get('action', 'up')
             voted = getattr(obj.votes, action)(user_id)
             if voted:
-                post_voted.send(sender=self.queryset.model,
+                post_voted.send(sender=self.get_serializer_class().Meta.model,
                                 obj=obj,
                                 user_id=user_id,
                                 action=action)
@@ -25,7 +25,7 @@ class VoteMixin:
         else:
             deleted = obj.votes.delete(user_id)
             if deleted:
-                post_voted.send(sender=self.queryset.model,
+                post_voted.send(sender=self.get_serializer_class().Meta.model,
                                 obj=obj,
                                 user_id=user_id,
                                 action='delete')
