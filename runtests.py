@@ -3,8 +3,12 @@ import sys
 
 from django.conf import settings
 from django.core.management import execute_from_command_line
+from django.utils.functional import empty
 
-if not settings.configured:
+
+def configure(**options):
+    if settings._wrapped is not empty:
+        settings._wrapped = empty
     settings.configure(
         SECRET_KEY="secret key",
         DATABASES={
@@ -40,11 +44,27 @@ if not settings.configured:
                 },
             },
         ],
+        **options
     )
+
+if not settings.configured:
+    configure()
 
 
 def runtests():
     argv = sys.argv[:1] + ["test"] + sys.argv[1:]
+    execute_from_command_line(argv)
+    # Now repeat all the tests when the Vote model has been swappwed with a
+    # custom model. Update settings for this.
+    configure(VOTE_VOTE_MODEL='test.MyVote')
+    from test.models import Comment, MyVote
+    from vote.models import VotableManager
+    from vote.utils import _reset_vote_model
+    # The VoteModel's votes manager has to be updated for the new Vote model
+    Comment.votes = VotableManager(MyVote)
+    # This is necessary only for tests to clear the previously cached
+    # Vote model class.
+    _reset_vote_model()
     execute_from_command_line(argv)
 
 

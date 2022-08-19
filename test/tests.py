@@ -1,8 +1,10 @@
 from __future__ import absolute_import
 from django.test import TestCase
 from django.contrib.auth.models import User
-from vote.models import Vote, UP, DOWN
-from test.models import Comment
+from vote.base_models import UP, DOWN
+from vote.models import Vote
+from test.models import Comment, MyVote
+from swapper import load_model
 
 
 class VoteTest(TestCase):
@@ -23,7 +25,8 @@ class VoteTest(TestCase):
 
     def tearDown(self):
         self.model.objects.all().delete()
-        self.through.objects.all().delete()
+        vote_model = load_model('vote', 'Vote')
+        vote_model.objects.all().delete()
         User.objects.all().delete()
 
     def call_api(self, api_name, model=None, *args, **kwargs):
@@ -81,7 +84,8 @@ class VoteTest(TestCase):
                                             content="I'm a comment")
         self.assertIsNone(self.call_api('get', comment, self.user2.pk))
         self.call_api('up', comment, self.user2.pk)
-        vote = Vote.objects.first()
+        vote_model = load_model('vote', 'Vote')
+        vote = vote_model.objects.first()
         self.assertEqual(vote, self.call_api('get', comment, self.user2.pk))
 
     def test_vote_all(self):

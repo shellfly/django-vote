@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from django import template
 from django.contrib.auth.models import AnonymousUser
 
-from vote.models import UP
+from vote.base_models import UP
 
 register = template.Library()
 
