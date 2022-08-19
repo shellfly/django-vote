@@ -77,10 +77,12 @@ class _VotableManager(models.Manager):
                     setattr(self.instance, voted_field,
                             getattr(self.instance, voted_field) - 1)
                 except self.through.DoesNotExist:
-                    vote = self.through.objects.create(user_id=user_id,
-                                                content_type=content_type,
-                                                object_id=self.instance.pk,
-                                                action=action)
+                    vote = self.through.objects.create(
+                        user_id=user_id,
+                        content_type=content_type,
+                        object_id=self.instance.pk,
+                        action=action
+                    )
 
                 statistics_field = self.through.ACTION_FIELD.get(action)
                 setattr(self.instance, statistics_field,

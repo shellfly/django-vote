@@ -4,6 +4,7 @@ from swapper import load_model
 
 _vote_model = None
 
+
 def _get_vote_model():
     '''Optimized load_model, which caches the vote_model during the first call
     and returns it for every subsequent call.'''
