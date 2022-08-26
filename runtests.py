@@ -3,8 +3,12 @@ import sys
 
 from django.conf import settings
 from django.core.management import execute_from_command_line
+from django.utils.functional import empty
 
-if not settings.configured:
+
+def configure(**options):
+    if settings._wrapped is not empty:
+        settings._wrapped = empty
     settings.configure(
         SECRET_KEY="secret key",
         DATABASES={
@@ -40,7 +44,11 @@ if not settings.configured:
                 },
             },
         ],
+        **options
     )
+
+if not settings.configured:
+    configure()
 
 
 def runtests():

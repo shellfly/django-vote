@@ -53,7 +53,9 @@ class _VotableManager(models.Manager):
         self.field_name = field_name
 
     def vote(self, user_id, action):
+        '''Returns the Vote object on success. None on failure.'''
         try:
+            vote = None
             with transaction.atomic():
                 self.instance = self.model.objects.select_for_update().get(
                     pk=self.instance.pk)
@@ -75,10 +77,12 @@ class _VotableManager(models.Manager):
                     setattr(self.instance, voted_field,
                             getattr(self.instance, voted_field) - 1)
                 except self.through.DoesNotExist:
-                    self.through.objects.create(user_id=user_id,
-                                                content_type=content_type,
-                                                object_id=self.instance.pk,
-                                                action=action)
+                    vote = self.through.objects.create(
+                        user_id=user_id,
+                        content_type=content_type,
+                        object_id=self.instance.pk,
+                        action=action
+                    )
 
                 statistics_field = self.through.ACTION_FIELD.get(action)
                 setattr(self.instance, statistics_field,
@@ -86,9 +90,9 @@ class _VotableManager(models.Manager):
 
                 self.instance.save()
 
-            return True
+            return vote
         except (OperationalError, IntegrityError):
-            return False
+            return None
 
     @instance_required
     def up(self, user_id):

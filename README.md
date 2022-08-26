@@ -87,3 +87,75 @@ POST /api/comments/{id}/vote/
 POST /api/comments/{id}/vote/ {"action":"down"}
 DELETE /api/comments/{id}/vote/
 ```
+
+### Swapping Vote Model
+
+To swap Vote model with your own model:
+
+1. Declare your own Vote model:
+
+    ```
+    # myvote/models.py
+
+    from vote.base_models import AbstractVote
+    from vote.models import VoteModel
+
+    class MyVote(AbstractVote):
+        '''To test model swapping'''
+        modified = models.DateTimeField(auto_now=True)
+
+        class Meta:
+            abstract = False
+            unique_together = ('user_id', 'content_type', 'object_id', 'action')
+            index_together = ('content_type', 'object_id')
+    ```
+
+2. In your votable model:
+
+    ```
+    from vote.models import VotableManager
+    from myvote.models import MyVote
+
+    class Comment(VoteModel):
+        user_id = models.BigIntegerField()
+        content = models.TextField()
+        num_vote = models.IntegerField(default=0)
+        create_at = models.DateTimeField(auto_now_add=True)
+        update_at = models.DateTimeField(auto_now=True)
+
+        votes = VotableManager(MyVote)    
+    ```
+
+3. Update settings, swapping the Vote model with yours:
+
+    ```
+    VOTE_VOTE_MODEL = 'myvote.MyVote
+    ```
+
+Alternatively, declare your own VotableManager, which overrides the constructor
+specifying `MyVote` as the `through` argument.
+
+```
+class MyVotableManager(VotableMangaer):
+    def __init__(self, **kwargs):
+        super().__init__(MyVote, **kwargs)
+
+
+class MyVoteModel(VoteModel):
+    votes = MyVotableManager()
+
+    class Meta:
+        abstract = True
+```
+
+Then you can use `MyVoteModel` instead of the default `VoteModel` in your 
+votable models:
+
+```
+class Comment(MyVoteModel):
+    user_id = models.BigIntegerField()
+    content = models.TextField()
+    num_vote = models.IntegerField(default=0)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+```

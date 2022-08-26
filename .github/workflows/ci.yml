@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -q Django==${{ matrix.django-version }} flake8 coverage djangorestframework
+          pip install -q Django==${{ matrix.django-version }} flake8 coverage djangorestframework swapper tox
       - name: Lint with flake8
         run: |
           flake8 --exclude vote/migrations/* vote
