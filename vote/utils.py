@@ -1,6 +1,5 @@
 from functools import wraps
 from django.contrib.contenttypes.models import ContentType
-from swapper import load_model
 
 _vote_model = None
 
@@ -10,7 +9,12 @@ def _get_vote_model():
     and returns it for every subsequent call.'''
     global _vote_model
     if not _vote_model:
-        _vote_model = load_model('vote', 'Vote')
+        try:
+            from swapper import load_model
+            _vote_model = load_model('vote', 'Vote')
+        except ImportError:
+            from .models import Vote
+            _vote_model = Vote
     return _vote_model
 
 

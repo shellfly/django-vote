@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from vote.base_models import UP, DOWN
 from vote.models import Vote
 from test.models import Comment, MyVote
-from swapper import load_model
+from vote.utils import _get_vote_model
 
 
 class VoteTest(TestCase):
@@ -25,7 +25,7 @@ class VoteTest(TestCase):
 
     def tearDown(self):
         self.model.objects.all().delete()
-        vote_model = load_model('vote', 'Vote')
+        vote_model = _get_vote_model()
         vote_model.objects.all().delete()
         User.objects.all().delete()
 
@@ -84,7 +84,7 @@ class VoteTest(TestCase):
                                             content="I'm a comment")
         self.assertIsNone(self.call_api('get', comment, self.user2.pk))
         self.call_api('up', comment, self.user2.pk)
-        vote_model = load_model('vote', 'Vote')
+        vote_model = _get_vote_model()
         vote = vote_model.objects.first()
         self.assertEqual(vote, self.call_api('get', comment, self.user2.pk))
 

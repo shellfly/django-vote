@@ -1,8 +1,10 @@
-from swapper import swappable_setting
-
 from django.db import models
 from vote.base_models import AbstractVote
 from vote.managers import VotableManager
+try:
+    from swapper import swappable_setting
+except ImportError:
+    swappable_setting = None
 
 
 class Vote(AbstractVote):
@@ -11,7 +13,9 @@ class Vote(AbstractVote):
         abstract = False
         unique_together = ('user_id', 'content_type', 'object_id', 'action')
         index_together = ('content_type', 'object_id')
-        swappable = swappable_setting('vote', 'Vote')
+        swappable = None
+        if swappable_setting:
+            swappable = swappable_setting('vote', 'Vote')
 
 
 class VoteModel(models.Model):
