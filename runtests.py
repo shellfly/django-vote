@@ -54,23 +54,6 @@ if not settings.configured:
 def runtests():
     argv = sys.argv[:1] + ["test"] + sys.argv[1:]
     execute_from_command_line(argv)
-    # Now repeat all the tests when the Vote model has been swappwed with a
-    # custom model. Update settings for this.
-    try:
-        from swapper import load_model
-        configure(VOTE_VOTE_MODEL='test.MyVote')
-        _vote_model = load_model('vote', 'Vote')
-        from test.models import Comment, MyVote
-        from vote.models import VotableManager
-        from vote.utils import _reset_vote_model
-        # The VoteModel's votes manager has to be updated for the new Vote model
-        Comment.votes = VotableManager(MyVote)
-        # This is necessary only for tests to clear the previously cached
-        # Vote model class.
-        _reset_vote_model()
-        execute_from_command_line(argv)
-    except ImportError:
-        pass
 
 
 if __name__ == "__main__":
