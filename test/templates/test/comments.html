@@ -1,4 +1,9 @@
 {% load vote %}
-{% for comment in comments %}
-{{comment.content}} {% vote_exists comment user %}
-{% endfor %}
+<ol>
+    {% for comment in comments %}
+    <li>
+        {{comment.content}} - up:{% vote_count comment "up" %} - down: {% vote_count comment "down" %} - exists_up:
+        {%vote_exists comment user %} - exists_down: {% vote_exists comment user "down"%}
+    </li>
+    {% endfor %}
+</ol>
