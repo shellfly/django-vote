@@ -2,7 +2,7 @@
 
 ``django-vote`` is a simple Django app to conduct vote for django model.
 
-This project is inspired by [django-taggit](https://github.com/alex/django-taggit)
+This project was inspired by [django-taggit](https://github.com/alex/django-taggit)
 
 ![Ci](https://github.com/shellfly/django-vote/actions/workflows/ci.yml/badge.svg)
 [![codecov](https://codecov.io/gh/shellfly/django-vote/branch/master/graph/badge.svg)](https://codecov.io/gh/shellfly/django-vote)
@@ -41,7 +41,7 @@ manage.py makemigrations
 manage.py migrate
 ```
 
-#### Use vote API
+### Use vote API
 
 ```python
 review = ArticleReview.objects.get(pk=1)
@@ -65,6 +65,9 @@ review.votes.exists(user_id, action=DOWN)
 # Returns the number of votes for the object
 review.votes.count()
 
+# Returns the number of down votes for the object
+review.votes.count(action=DOWN)
+
 # Returns a list of users who voted and their voting date
 review.votes.user_ids()
 
@@ -74,9 +77,32 @@ Review.votes.all(user_id)
 
 ```
 
-#### Use `VoteMixin` for REST API
+### Use tags template
+
+There are two template tags you can use in template: 
+1. `vote_count` to get vote count for a model instance
+2. `vote_exists` to check whether current user vote for the instance
+
+``` html
+{% load vote %}
+<ol>
+    {% for comment in comments %}
+    <li>
+        {{comment.content}} - up:{% vote_count comment "up" %} - down: {% vote_count comment "down" %} - exists_up:
+        {% vote_exists comment user "up" %} - exists_down: {% vote_exists comment user "down"%}
+    </li>
+    {% endfor %}
+</ol>
+```
+
+### Use `VoteMixin` for REST API
+
+Install [django-rest-framework](https://github.com/encode/django-rest-framework/)
 
 ``` python
+from rest_framework.viewsets import ModelViewSet
+from vote.views import VoteMixin
+
 class CommentViewSet(ModelViewSet, VoteMixin):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
