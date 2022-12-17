@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.4.0 (2022.12.17)
+------------------
+* Add template tag to get vote count
+
 2.3.0 (2022.02.06)
 ------------------
 * Add support for Django 4.0
