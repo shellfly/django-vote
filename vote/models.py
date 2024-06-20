@@ -27,9 +27,9 @@ class Vote(models.Model):
         DOWN: 'num_vote_down'
     }
 
-    user_id = models.BigIntegerField()
+    user_id = models.CharField(max_length=50)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
+    object_id = models.CharField(max_length=50)
     content_object = GenericForeignKey()
     action = models.PositiveSmallIntegerField(default=UP)
     create_at = models.DateTimeField(auto_now_add=True)
