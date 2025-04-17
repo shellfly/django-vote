@@ -34,6 +34,7 @@ setup(
         "Framework :: Django :: 2.0",
         "Framework :: Django :: 3.0",
         "Framework :: Django :: 4.0",
+        "Framework :: Django :: 5.0",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
