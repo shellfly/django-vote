@@ -15,9 +15,4 @@ class Migration(migrations.Migration):
             new_name='vote_vote_content_a520b4_idx',
             old_fields=('content_type', 'object_id'),
         ),
-        migrations.AlterField(
-            model_name='vote',
-            name='id',
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
-        ),
     ]
