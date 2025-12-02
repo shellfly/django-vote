@@ -154,9 +154,20 @@ class _VotableManager(models.Manager):
 
         return self.model.objects.filter(pk__in=list(object_ids))
 
-    def count(self, action=UP):
+    def count_up(self):
         return self.through.votes_for(self.model,
-                                      self.instance, action).count()
+                                      self.instance, UP).count()
+
+    def count_down(self):
+        return self.through.votes_for(self.model,
+                                      self.instance, DOWN).count()
+
+    def count(self):
+        votes = {
+            "up": self.count_up(),
+            "down": self.count_down()
+        }
+        return votes
 
     def user_ids(self, action=UP):
         return self.through.votes_for(
