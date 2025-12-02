@@ -25,7 +25,7 @@ jobs:
           pip install -q Django==${{ matrix.django-version }} flake8 coverage djangorestframework
       - name: Lint with flake8
         run: |
-          flake8 --exclude vote/migrations/* vote
+          flake8 --exclude "vote/migrations/*" vote
       - name: Test with coverage
         run: |
           coverage run runtests.py
