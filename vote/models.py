@@ -38,7 +38,7 @@ class Vote(models.Model):
 
     class Meta:
         unique_together = ('user_id', 'content_type', 'object_id', 'action')
-        index_together = ('content_type', 'object_id')
+        indexes = [models.Index(fields=["content_type", "object_id"])]
 
     @classmethod
     def votes_for(cls, model, instance=None, action=UP):

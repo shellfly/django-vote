@@ -28,6 +28,7 @@ if not settings.configured:
             "django.contrib.sessions.middleware.SessionMiddleware",
             "django.contrib.auth.middleware.AuthenticationMiddleware",
         ],
+        DEFAULT_AUTO_FIELD='django.db.models.BigAutoField',
         TEMPLATES=[
             {
                 "BACKEND": "django.template.backends.django.DjangoTemplates",
